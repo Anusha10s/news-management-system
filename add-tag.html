@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Tag | Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #ecf0f1;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        .btn {
+            margin-top: 20px;
+            width: 100%;
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Add Trending Tag</h2>
+        <form onsubmit="submitTag(event)">
+            <label for="tag">Tag Name</label>
+            <input type="text" id="tag" placeholder="e.g. Elections, AI, IPL" required>
+
+            <button type="submit" class="btn">Add Tag</button>
+        </form>
+        <p id="message" style="text-align:center; margin-top:20px; color:green;"></p>
+    </div>
+
+    <script>
+        function submitTag(event) {
+            event.preventDefault();
+            const tag = document.getElementById("tag").value.trim();
+
+            if (tag) {
+                document.getElementById("message").innerText = `Tag "${tag}" has been added successfully!`;
+                document.getElementById("tag").value = "";
+            } else {
+                document.getElementById("message").innerText = "Please enter a valid tag.";
+            }
+        }
+    </script>
+</body>
+</html>

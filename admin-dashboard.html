@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard | Global News Network</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #ecf0f1;
+      margin: 0;
+      padding: 0;
+    }
+    .sidebar {
+      width: 250px;
+      background: #2c3e50;
+      color: white;
+      position: fixed;
+      height: 100%;
+      padding-top: 30px;
+      padding-left: 20px;
+    }
+    .sidebar a {
+      color: white;
+      display: block;
+      margin: 10px 0;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .sidebar a:hover {
+      background: #2980b9;
+      padding-left: 10px;
+      transition: all 0.3s;
+    }
+    .content {
+      margin-left: 260px;
+      padding: 20px;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .btn {
+      background: #3498db;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background: #2980b9;
+    }
+    .news-item {
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+    }
+    .news-title {
+      font-weight: bold;
+    }
+    .action-links {
+      margin-top: 5px;
+    }
+    .action-links a {
+      margin-right: 10px;
+      color: #2980b9;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Admin Dashboard</h2>
+    <a href="#">Dashboard</a>
+    <a href="#">Manage News</a>
+    <a href="#">Categories</a>
+    <a href="#">Trending Tags</a>
+    <a href="#">Logout</a>
+  </div>
+
+  <div class="content">
+    <h1>Welcome to the Admin Dashboard</h1>
+
+    <!-- Manage News Section -->
+    <div class="card">
+      <h2>Manage News</h2>
+      <button class="btn" onclick="window.location.href='submit-news.html'">Add New News</button>
+      <div id="news-list"></div>
+    </div>
+
+    <!-- Categories Section -->
+    <div class="card">
+      <h2>Manage Categories</h2>
+      <button class="btn" onclick="window.location.href='add-category.html'">Add New Category</button>
+    </div>
+
+    <!-- Trending Tags Section -->
+    <div class="card">
+      <h2>Manage Trending Tags</h2>
+      <button class="btn" onclick="window.location.href='add-tag.html'">Add New Tag</button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const newsListContainer = document.getElementById("news-list");
+      const storedNews = JSON.parse(localStorage.getItem("newsData")) || [];
+
+      if (storedNews.length === 0) {
+        newsListContainer.innerHTML = "<p>No news posted yet.</p>";
+        return;
+      }
+
+      storedNews.forEach((item, index) => {
+        const newsDiv = document.createElement("div");
+        newsDiv.className = "news-item";
+        newsDiv.innerHTML = `
+          <div class="news-title">${item.title}</div>
+          <div class="action-links">
+            <a href="submit-news.html?edit=${index}">Edit</a>
+            <a onclick="deleteNews(${index})">Delete</a>
+          </div>
+        `;
+        newsListContainer.appendChild(newsDiv);
+      });
+    });
+
+    function deleteNews(index) {
+      const confirmDelete = confirm("Are you sure you want to delete this news item?");
+      if (confirmDelete) {
+        let newsData = JSON.parse(localStorage.getItem("newsData")) || [];
+        newsData.splice(index, 1);
+        localStorage.setItem("newsData", JSON.stringify(newsData));
+        location.reload();
+      }
+    }
+  </script>
+</body>
+</html>

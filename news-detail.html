@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>News Detail</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f4f4f4;
+    }
+    .news-container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 800px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .news-image {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+    .news-title {
+      font-size: 2rem;
+      margin: 20px 0 10px;
+    }
+    .news-meta {
+      color: #777;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+    }
+    .news-excerpt {
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="news-container" id="news-detail"></div>
+
+  <script>
+    // Same newsData used in index.html (hardcoded)
+    const newsData = [
+      {
+        title: "AI Revolutionizes Healthcare Industry",
+        excerpt: "Artificial Intelligence is transforming diagnostics, treatment planning, and patient care worldwide.",
+        author: "Jane Doe",
+        date: "May 10, 2025",
+        category: "health",
+        image: "https://source.unsplash.com/featured/?healthcare,ai"
+      },
+      {
+        title: "Global Markets Surge After Tech Earnings",
+        excerpt: "Stock markets worldwide surged following strong earnings reports from major tech firms.",
+        author: "John Smith",
+        date: "May 10, 2025",
+        category: "politics",
+        image: "https://source.unsplash.com/featured/?stock,market"
+      },
+      {
+        title: "Champions League Final: A Night to Remember",
+        excerpt: "In a thrilling final, underdogs pulled off a historic victory in the UEFA Champions League.",
+        author: "Alex Johnson",
+        date: "May 9, 2025",
+        category: "sports",
+        image: "https://source.unsplash.com/featured/?football,soccer"
+      }
+    ];
+
+    const params = new URLSearchParams(window.location.search);
+    const id = parseInt(params.get("id"));
+    const news = newsData[id];
+
+    if (news) {
+      document.getElementById("news-detail").innerHTML = `
+        <img src="${news.image}" alt="${news.title}" class="news-image">
+        <h1 class="news-title">${news.title}</h1>
+        <div class="news-meta">
+          <span><strong>Author:</strong> ${news.author}</span> |
+          <span><strong>Date:</strong> ${news.date}</span> |
+          <span><strong>Category:</strong> ${news.category}</span>
+        </div>
+        <p class="news-excerpt">${news.excerpt}</p>
+      `;
+    } else {
+      document.getElementById("news-detail").innerHTML = `<p>News article not found.</p>`;
+    }
+  </script>
+</body>
+</html>

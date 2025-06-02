@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Submit News - Global News Network</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #e0eafc, #cfdef3);
+            margin: 0;
+            padding: 40px;
+        }
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 6px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        button {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #219150;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="form-title">Publish Your News</h1>
+        <form id="news-form">
+            <label for="title">Headline</label>
+            <input type="text" id="title" required>
+
+            <label for="excerpt">Content</label>
+            <textarea id="excerpt" placeholder="Short description" required></textarea>
+
+            <label for="author">Author</label>
+            <input type="text" id="author" required>
+
+            <label for="image">Image Filename (inside /uploads)</label>
+            <input type="text" id="image" placeholder="example.jpg">
+
+            <label for="category">Category</label>
+            <select id="category" required>
+                <option value="">Select a category</option>
+                <option value="politics">Politics</option>
+                <option value="health">Health</option>
+                <option value="sports">Sports</option>
+            </select>
+
+            <button type="submit" id="publishBtn">Publish</button>
+        </form>
+        <p id="successMessage" style="color: green; display: none;">News posted successfully!</p>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById("news-form");
+            const successMessage = document.getElementById("successMessage");
+            const urlParams = new URLSearchParams(window.location.search);
+            const editIndex = urlParams.get("edit"); // index of news item to edit
+
+            const titleInput = document.getElementById("title");
+            const excerptInput = document.getElementById("excerpt");
+            const authorInput = document.getElementById("author");
+            const imageInput = document.getElementById("image");
+            const categoryInput = document.getElementById("category");
+
+            const storedNews = JSON.parse(localStorage.getItem("newsData")) || [];
+
+            // If editing, pre-fill form
+            if (editIndex !== null && storedNews[editIndex]) {
+                const item = storedNews[editIndex];
+                document.getElementById("form-title").innerText = "Edit News";
+                document.getElementById("publishBtn").innerText = "Update";
+
+                titleInput.value = item.title;
+                excerptInput.value = item.excerpt;
+                authorInput.value = item.author;
+                imageInput.value = item.image;
+                categoryInput.value = item.category;
+            }
+
+            form.addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                const title = titleInput.value;
+                const excerpt = excerptInput.value;
+                const author = authorInput.value;
+                const image = imageInput.value;
+                const category = categoryInput.value;
+
+                if (!title || !author || !excerpt || !image || !category) {
+                    alert("Please fill in all fields.");
+                    return;
+                }
+
+                const newsItem = {
+                    title,
+                    excerpt,
+                    author,
+                    category,
+                    image,
+                    date: new Date().toLocaleDateString()
+                };
+
+                if (editIndex !== null && storedNews[editIndex]) {
+                    // Update existing news
+                    storedNews[editIndex] = newsItem;
+                } else {
+                    // Add new news
+                    storedNews.unshift(newsItem);
+                }
+
+                localStorage.setItem("newsData", JSON.stringify(storedNews));
+                successMessage.style.display = "block";
+
+                setTimeout(() => {
+                    window.location = "index.html";
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>

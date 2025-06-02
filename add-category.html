@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Category | Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #ecf0f1;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        .btn {
+            margin-top: 20px;
+            width: 100%;
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Add New Category</h2>
+        <form onsubmit="addCategory(event)">
+            <label for="categoryName">Category Name</label>
+            <input type="text" id="categoryName" name="categoryName" required>
+
+            <button type="submit" class="btn">Add Category</button>
+        </form>
+        <p id="message" style="text-align:center; margin-top:20px; color:green;"></p>
+    </div>
+
+    <script>
+        function addCategory(event) {
+            event.preventDefault();
+            const name = document.getElementById("categoryName").value;
+            // You can later send this to your backend or save it
+            document.getElementById("message").innerText = `Category "${name}" added successfully!`;
+            document.getElementById("categoryName").value = "";
+        }
+    </script>
+</body>
+</html>
